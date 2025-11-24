@@ -15,30 +15,39 @@ class MaizeSamplesTable
     {
         return $table
             ->columns([
-                TextColumn::make('user.name')
-                    ->numeric()
+                TextColumn::make('collector.name')
+                    ->label('Recolector')
+                    ->sortable(),
+                TextColumn::make('farmer.name')
+                    ->label('Agricultor')
                     ->sortable(),
                 TextColumn::make('municipality.name')
-                    ->numeric()
+                    ->label('Municipio')
                     ->sortable(),
                 TextColumn::make('locality.name')
-                    ->numeric()
+                    ->label('Localidad')
                     ->sortable(),
-                TextColumn::make('sample_code')
+                TextColumn::make('code')
+                    ->label('Código')
                     ->searchable(),
                 TextColumn::make('sample_number')
+                    ->label('# Sub-muestra')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('collection_date')
+                    ->label('Fecha de recolección')
                     ->date()
                     ->sortable(),
                 TextColumn::make('latitude')
+                    ->label('Latitud')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('longitude')
+                    ->label('Longitud')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('variety_name')
+                    ->label('Variedad')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

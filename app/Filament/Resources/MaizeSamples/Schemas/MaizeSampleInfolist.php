@@ -11,13 +11,15 @@ class MaizeSampleInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('user.name')
+                TextEntry::make('user_id')
+                    ->numeric(),
+                TextEntry::make('farmer.name')
                     ->numeric(),
                 TextEntry::make('municipality.name')
                     ->numeric(),
                 TextEntry::make('locality.name')
                     ->numeric(),
-                TextEntry::make('sample_code'),
+                TextEntry::make('code'),
                 TextEntry::make('sample_number')
                     ->numeric(),
                 TextEntry::make('collection_date')
