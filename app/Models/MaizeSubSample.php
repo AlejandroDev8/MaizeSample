@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MaizeSubSample extends Model
 {
@@ -56,4 +57,9 @@ class MaizeSubSample extends Model
         'indice_lgr_agr'         => 'float',
         'volumen_grano_50_ml'    => 'float',
     ];
+
+    public function sample(): BelongsTo
+    {
+        return $this->belongsTo(MaizeSample::class, 'maize_sample_id');
+    }
 }
