@@ -125,16 +125,15 @@ class MaizeSubSampleForm
                                     ->schema([
                                         FileUpload::make('image_path')
                                             ->label('Imagen de la sub-muestra')
-                                            ->image()                 // valida que sea imagen
-                                            ->disk('public')          // usa storage público
-                                            ->directory('subsamples') // carpeta destino
-                                            ->imageEditor()           // editor integrado
+                                            ->image()
+                                            ->disk('public')
+                                            ->directory('subsamples')
+                                            ->imageEditor()
                                             ->imagePreviewHeight('150')
                                             ->openable()
                                             ->downloadable()
                                             ->nullable()
-                                            ->columnSpanFull()
-                                            ->helperText('Opcional. Foto de la sub-muestra.'),
+                                            ->columnSpanFull(),
                                     ])
                             ])
                     ])
