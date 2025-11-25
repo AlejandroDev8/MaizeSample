@@ -31,7 +31,11 @@ class MaizeSamplesTable
                     ->label('Código')
                     ->searchable(),
                 TextColumn::make('sample_number')
-                    ->label('# Sub-muestra')
+                    ->label('# Muestra')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('subsamples_count')
+                    ->label('# Sub-muestras')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('collection_date')

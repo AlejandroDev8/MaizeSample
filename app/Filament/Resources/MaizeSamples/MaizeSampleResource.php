@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class MaizeSampleResource extends Resource
 {
@@ -27,6 +28,12 @@ class MaizeSampleResource extends Resource
     protected static ?string $modelLabel = 'Muestra de Maíz';
 
     protected static ?string $pluralModelLabel = 'Muestras de Maíz';
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withCount('subsamples'); // 👈 agrega subsamples_count a cada registro
+    }
 
     public static function form(Schema $schema): Schema
     {
