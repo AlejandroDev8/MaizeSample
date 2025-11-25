@@ -22,7 +22,7 @@ return new class extends Migration
 
             // Sample MetaData
             $table->string('code')->nullable();
-            $table->unsignedInteger('sample_number');
+            $table->unsignedInteger('sample_number')->nullable();
             $table->date('collection_date')->nullable();
 
             // Geographical Data
