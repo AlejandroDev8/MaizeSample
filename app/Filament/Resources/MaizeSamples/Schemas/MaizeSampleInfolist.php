@@ -72,7 +72,7 @@ class MaizeSampleInfolist
                     ->columnSpanFull()
                     ->collapsed(false)
                     ->schema([
-                        Grid::make(1)->schema([
+                        Grid::make(2)->schema([
                             TextEntry::make('variety_name')
                                 ->label('Nombre de la variedad')
                                 ->placeholder('—'),
@@ -140,10 +140,14 @@ class MaizeSampleInfolist
                                         ->label('Forma corona'),
                                 ]),
                                 // === Imagen de la sub-muestra (usa tu accessor image_url) ===
-                                ImageEntry::make('image_url')
+                                ImageEntry::make('image_path')
                                     ->label('Foto')
+                                    ->disk('public')          // <- IMPORTANTÍSIMO
                                     ->imageHeight('200px')
-                                    ->hidden(fn($state) => blank($state))
+                                    ->columnSpanFull(),
+                                // DEBUG opcional: ver la URL que está usando
+                                TextEntry::make('image_path')
+                                    ->label('URL foto (debug)')
                                     ->columnSpanFull(),
                             ])
                     ])
