@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\MaizeSamples\Tables;
 
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
@@ -15,6 +16,10 @@ class MaizeSamplesTable
     {
         return $table
             ->columns([
+                TextColumn::make('sample_number')
+                    ->label('# Muestra')
+                    ->numeric()
+                    ->sortable(),
                 TextColumn::make('collector.name')
                     ->label('Recolector')
                     ->sortable(),
@@ -27,13 +32,6 @@ class MaizeSamplesTable
                 TextColumn::make('locality.name')
                     ->label('Localidad')
                     ->sortable(),
-                TextColumn::make('code')
-                    ->label('Código')
-                    ->searchable(),
-                TextColumn::make('sample_number')
-                    ->label('# Muestra')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('subsamples_count')
                     ->label('# Sub-muestras')
                     ->numeric()
@@ -42,10 +40,13 @@ class MaizeSamplesTable
                     ->label('Fecha de recolección')
                     ->date()
                     ->sortable(),
-                TextColumn::make('latitude')
+                /**TextColumn::make('latitude')
                     ->label('Latitud')
                     ->numeric()
                     ->sortable(),
+                TextColumn::make('code')
+                    ->label('Código')
+                    ->searchable(),
                 TextColumn::make('longitude')
                     ->label('Longitud')
                     ->numeric()
@@ -61,13 +62,13 @@ class MaizeSamplesTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+             **/
             ])
-            ->filters([
-                //
-            ])
+            ->filters([])
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
