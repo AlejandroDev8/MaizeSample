@@ -8,6 +8,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class MaizeSamplesTable
@@ -64,7 +65,18 @@ class MaizeSamplesTable
                     ->toggleable(isToggledHiddenByDefault: true),
              **/
             ])
-            ->filters([])
+            ->filters([
+                SelectFilter::make('locality')
+                    ->label('Localidad')
+                    ->preload()
+                    ->searchable()
+                    ->relationship('locality', 'name'),
+                SelectFilter::make('farmer')
+                    ->label('Agricultor')
+                    ->preload()
+                    ->searchable()
+                    ->relationship('farmer', 'name'),
+            ])
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
