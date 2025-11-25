@@ -17,7 +17,7 @@ class MaizeSamplesTable
     {
         return $table
             ->columns([
-                TextColumn::make('sample_number')
+                TextColumn::make('id')
                     ->label('# Muestra')
                     ->numeric()
                     ->sortable(),
