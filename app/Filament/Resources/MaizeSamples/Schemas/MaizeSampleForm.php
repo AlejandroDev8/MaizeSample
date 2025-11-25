@@ -34,10 +34,10 @@ class MaizeSampleForm
                                     ->label('Código')
                                     ->required()
                                     ->maxLength(50),
-                                TextInput::make('sample_number')
-                                    ->label('Número de muestra')
-                                    ->required()
-                                    ->numeric(),
+                                // TextInput::make('sample_number')
+                                //     ->label('Número de muestra')
+                                //     ->required()
+                                //     ->numeric(),
                             ]),
                         Fieldset::make('Recolector y Agricultor')
                             ->schema([
