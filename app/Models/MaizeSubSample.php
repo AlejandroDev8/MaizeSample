@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 class MaizeSubSample extends Model
 {
@@ -31,14 +32,20 @@ class MaizeSubSample extends Model
         'image_path',
     ];
 
-    protected $appends = [
-        'image_url',
-    ];
+    // protected $appends = [
+    //     'image_url',
+    // ];
 
-    public function getImageUrlAttribute(): ?string
-    {
-        return blank($this->image_path) ? null : asset('storage/' . $this->image_path);
-    }
+    // public function getImageUrlAttribute(): ?string
+    // {
+    //     if (blank($this->image_path)) {
+    //         return null;
+    //     }
+
+    //     // image_path = "subsamples/01KAY7GVD...png"
+    //     // devuelve "/storage/subsamples/01KAY7GVD...png"
+    //     return Storage::url($this->image_path);
+    // }
 
     // Casts
     protected $casts = [
