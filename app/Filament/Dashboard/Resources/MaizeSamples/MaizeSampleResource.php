@@ -22,11 +22,19 @@ class MaizeSampleResource extends Resource
 {
     protected static ?string $model = MaizeSample::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBeaker;
+
+    protected static ?string $navigationLabel = 'Muestras de Maíz';
+
+    protected static ?string $modelLabel = 'Muestra de Maíz';
+
+    protected static ?string $pluralModelLabel = 'Muestras de Maíz';
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('user_id', Auth::user()->id);
+        return parent::getEloquentQuery()
+            ->where('user_id', Auth::user()->id)
+            ->withCount('subsamples');
     }
 
     public static function form(Schema $schema): Schema
