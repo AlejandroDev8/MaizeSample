@@ -32,6 +32,14 @@ class MaizeSubSample extends Model
         'image_path',
     ];
 
+    protected static function booted(): void
+    {
+        static::deleting(function (MaizeSubSample $subsample) {
+            if ($subsample->image_path) {
+                Storage::disk('public')->delete($subsample->image_path);
+            }
+        });
+    }
     // protected $appends = [
     //     'image_url',
     // ];

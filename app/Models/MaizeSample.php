@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class MaizeSample extends Model
 {
@@ -21,6 +22,17 @@ class MaizeSample extends Model
         'variety_name',
         'notes',
     ];
+
+    protected static function booted(): void
+    {
+        static::deleting(function (MaizeSample $sample) {
+            foreach ($sample->subsamples as $subsample) {
+                if ($subsample->image_path) {
+                    Storage::disk('public')->delete($subsample->image_path);
+                }
+            }
+        });
+    }
 
     public function collector(): BelongsTo
     {
