@@ -3,10 +3,12 @@
 namespace App\Filament\Dashboard\Resources\MaizeSamples\Pages;
 
 use App\Filament\Dashboard\Resources\MaizeSamples\MaizeSampleResource;
+use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Support\Icons\Heroicon;
 
 class EditMaizeSample extends EditRecord
 {
@@ -28,7 +30,16 @@ class EditMaizeSample extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            ViewAction::make(),
+            Action::make('back')
+                ->label('Volver')
+                ->icon(Heroicon::OutlinedArrowLeft)
+                ->color('gray')
+                ->url($this->getResource()::getUrl('index')),
+            ViewAction::make('view')
+                ->label('Ver')
+                ->icon(Heroicon::OutlinedEye)
+                ->color('primary')
+                ->url($this->getResource()::getUrl('view', ['record' => $this->getRecord()])),
             DeleteAction::make(),
         ];
     }
