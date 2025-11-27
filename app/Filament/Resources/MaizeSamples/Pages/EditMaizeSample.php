@@ -27,6 +27,17 @@ class EditMaizeSample extends EditRecord
             ->body('La muestra de maíz ha sido actualizada exitosamente.');
     }
 
+    public function getHeading(): string
+    {
+        $n = $this->record->sample_number ?? $this->record->id;
+        return "Muestra #{$n}";
+    }
+
+    public function getTitle(): string
+    {
+        return $this->getHeading();
+    }
+
     protected function getHeaderActions(): array
     {
         return [
