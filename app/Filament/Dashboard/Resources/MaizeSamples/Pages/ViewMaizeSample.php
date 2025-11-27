@@ -12,6 +12,17 @@ class ViewMaizeSample extends ViewRecord
 {
     protected static string $resource = MaizeSampleResource::class;
 
+    public function getHeading(): string
+    {
+        $n = $this->record->sample_number ?? $this->record->id;
+        return "Muestra #{$n}";
+    }
+
+    public function getTitle(): string
+    {
+        return $this->getHeading();
+    }
+
     protected function getHeaderActions(): array
     {
         return [
