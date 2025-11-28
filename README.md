@@ -1,59 +1,239 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistema de inventariado para la recolección de muestras de maiz
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este proyecto es un sistema de inventariado diseñado para gestionar y rastrear la recolección de muestras de maíz. Proporciona una interfaz fácil de usar para registrar, almacenar y consultar información sobre las muestras recolectadas.
 
-## About Laravel
+## Tabla de contenidos
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Características](#características).
+- [Tecnologías principales](#tecnologías-principales).
+- [Requisitos](#requisitos).
+- [Instalación](#instalación).
+- [Estructura del proyecto](#estructura-del-proyecto).
+- [Uso del sistema](#uso-del-sistema).
+  - [Uso como Administrador](#uso-como-administrador).
+  - [Uso como Recolector](#uso-como-recolector).
+- [Autor](#autor).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Características
 
-## Learning Laravel
+1. **Control de usuarios**
+   - Registro y autenticación de usuarios.
+   - Roles de usuario: **Administrador** y **Recolector**.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+2. **Gestión de muestras**
+   - Registro de nuevas muestras con detalles como ubicación, fecha y tipo de maíz.
+   - Edición y eliminación de muestras.
+   - Asociación de muestras a agricultores y zonas geográficas.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. **Catálogos geográficos (INEGI)**
+   - Importación de catálogos de **Estados**, **Ciudades/Municipios** y **Localidades** desde INEGI.
+   - Uso de estos catálogos para normalizar la información geográfica de las muestras.
 
-## Laravel Sponsors
+4. **Búsqueda y filtrado**
+   - Búsqueda avanzada de muestras por diferentes criterios.
+   - Listados filtrables desde el panel de administración.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## Tecnologías principales
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- [PHP](https://www.php.net/) 8.3+
+- [Laravel](https://laravel.com/) 12.x
+- [FilamentPHP](https://filamentphp.com/) 4.x
+- [PostgreSQL](https://www.postgresql.org/) 17.x
+- [Node.js](https://nodejs.org/) 22.x
+- [NPM](https://www.npmjs.com/) 11.x
+- Vite (para el build de assets de frontend)
 
-## Contributing
+> Las versiones indicadas son las utilizadas durante el desarrollo. Versiones superiores compatibles deberían funcionar sin problema.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## Requisitos
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Antes de comenzar, asegúrate de tener instalado:
 
-## Security Vulnerabilities
+- PHP 8.3 o superior
+- Composer 2.8 o superior
+- Node.js 22.x y NPM 11.x
+- PostgreSQL 17.x
+- Extensiones de PHP necesarias para Laravel (`pdo`, `pdo_pgsql`, `mbstring`, etc.)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Instalación
 
-## License
+1. **Clonar el repositorio**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+   ```bash
+   git clone https://github.com/AlejandroDev8/MaizeSample.git
+   cd MaizeSample
+   ```
+
+2. **Instalar dependencias de PHP**
+
+   ```bash
+   composer install
+
+   ```
+
+3. **Instalar dependencias de JavaScript**
+
+   ```bash
+   npm install
+
+   ```
+
+4. Configurar los archivos de entorno
+
+   Copia el archivo de ejemplo de `env.example` y renómbralo a `.env`.
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   En Windows (CMD/PowerShell) puedes usar el comando copy en lugar de `cp`.
+
+   Luego configura las variables de entorno, especialmente las de la base de datos PostgreSQL, por ejemplo:
+
+   ```env
+    DB_CONNECTION=pgsql
+    DB_HOST=127.0.0.1
+    DB_PORT=5432
+    DB_DATABASE=maize_sample
+    DB_USERNAME=tu_usuario
+    DB_PASSWORD=tu_contraseña
+   ```
+
+5. **Generar la clave de la aplicación**
+
+   ```bash
+   php artisan key:generate
+   ```
+
+6. **Ejecutar migraciones de la base de datos**
+
+    ```bash
+    php artisan migrate
+    ```
+
+7. **Ejecutar seeders (usuario administrador inicial)**
+
+    ```bash
+    php artisan db:seed
+    ```
+
+    Aquí se crean los registros iniciales (por ejemplo, el usuario administrador). Revisa los seeders en `database/seeders` para conocer las credenciales por defecto.
+
+8. **Importar catálogos de INEGI**
+
+    ```bash
+    php artisan inegi:import
+    ```
+
+    Este comando ejecuta el importador definido en `app/Console/Commands/ImportInegiCatalog.php` y carga en la base de datos los catálogos de geografía necesarios (Estados, Ciudades/Municipios y Localidades).
+
+9. **Levantar el servidor de desarrollo**
+
+    ```bash
+    php artisan serve
+    ```
+
+    Por defecto la aplicación estará disponible en:
+
+    ```arduino
+    http://localhost:8000
+    ```
+
+10. **Compilar assets de frontend**
+
+    En otra terminal, ejecuta:
+
+    ```bash
+    npm run dev
+    ```
+
+    Para producción, usa:
+
+    ```bash
+    npm run build
+    ```
+
+## Estructura del proyecto
+
+Algunas rutas relevantes en el proyecto:
+
+- `app/Models`
+  Modelos de Eloquent para las entidades del sistema (usuarios, agricultores, muestras de maíz, etc.).
+- `app/Console/Commands/ImportInegiCatalog.php`
+  Comando personalizado para importar los catálogos de INEGI.
+- `app/Filament/Clusters`
+  Clústers de Filament para organizar recursos, por ejemplo:
+
+  - Clúster de **Gepgrafía** (Estados, Ciudades, Localidades).
+  - Clúster de **Usuarios** (Agricultores, Recolectores).
+
+- `app/Filament/Dashboard/Resources`
+  Recursos relacionados con el panel principal de Dashboard.
+- `app/Filament/Resources`
+  Recursos de Filament para gestionar las muestras de maíz, etc en el panel de Administrador.
+- `app/Providers/`
+  Proveedores de servicios de la aplicación.
+- `database/migrations`
+  Migraciones de la base de datos.
+- `database/seeders`
+  Seeders para poblar la base de datos con datos iniciales (roles, usuario administrador, etc.).
+
+## Uso del sistema
+
+## Uso como Administrador
+
+1. Accede a la aplicación en tu navegador:
+
+   ```arduino
+   http://localhost:8000
+   ```
+
+2. Inicia sesión con la cuenta de `Administrador` creada por los seeders (consulta `database/seeders` para ver las credenciales configuradas).
+3. Al iniciar sesión, serás dirigido al panel de `Dashboard`. Desde allí tienes un botón en la parte superior derecha para acceder al panel de `Administrador`.
+4. En el panel de `Administrador` puedes:
+   - Gestionar los clústeres de Usuarios (Usuarios, Agricultores, etc.).
+   - Gestionar los clústeres de Geografía (Estados, Ciudades/Municipios, Localidades).
+   - Gestionar las muestras de maíz.
+5. Para crear un nuevo usuario:
+   - Ve a la sección de `Usuarios`.
+   - Haz clic en `Usuarios` y luego en `Crear Usuario`.
+   - Llena el formulario con los datos del nuevo usuario y asigna el rol correspondiente (Administrador o Recolector).
+6. Para gestionar la geografía:
+   - Ve a la sección de `Geografía`.
+   - Podrás visualizar y gestionar `Estados, Ciudades/Municipios y Localidades`.
+7. Para crear un registro de Agricultor:
+   - Ve a la sección de `Usuarios`.
+   - Haz clic en `Agricultores` y luego en `Crear Agricultor`.
+8. Para ver las muestras de maíz recolectadas:
+   - Ve a la sección de `Muestras de Maíz`.
+   - Ahí encontrarás un listado con todas las muestras e información relevante.
+   - Haz clic en un registro para ver el detalle completo de la muestra.
+
+## Uso como Recolector
+
+1. Accede a la aplicación en tu navegador:
+
+   ```arduino
+   http://localhost:8000
+   ```
+
+2. Inicia sesión con tu cuenta de `Recolector` (creada previamente por el administrador).
+3. Serás redirigido al panel de `Dashboard` y desde ahí directamente a la sección de Muestras de Maíz.
+4. Para registrar una nueva muestra:
+   - Haz clic en `Crear Muestra de Maíz`.
+   - Completa el formulario con los detalles de la muestra (ubicación, fecha, tipo de maíz, agricultor, etc.).
+   - Haz clic en `Guardar`.
+5. Desde la misma sección de Muestras de Maíz puedes:
+   - Ver las muestras que has registrado.
+   - Editar o eliminar tus registros.
+   - Consultar el detalle de una muestra específica haciendo clic sobre ella.
+
+## Autor
+
+- Alejandro Olvera Delgado - [GitHub](https://github.com/AlejandroDev8)
