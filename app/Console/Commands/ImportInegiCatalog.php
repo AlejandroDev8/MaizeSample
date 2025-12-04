@@ -16,6 +16,9 @@ class ImportInegiCatalog extends Command
 
     private string $base = 'https://gaia.inegi.org.mx/wscatgeo/v2';
 
+    // Clave de San Luis Potosí en el catálogo de INEGI
+    private const TARGET_STATE_CODE = '24';
+
     public function handle(): int
     {
         if ($this->option('fresh')) {
@@ -28,6 +31,12 @@ class ImportInegiCatalog extends Command
         $stateRows = Http::retry(3, 300)->get("{$this->base}/mgee/")->json('datos') ?? [];
 
         foreach ($stateRows as $stateRow) {
+
+            // Saltar todos los estados que no sean San Luis Potosí
+            if (($stateRow['cve_ent'] ?? null) !== self::TARGET_STATE_CODE) {
+                continue;
+            }
+
             $stateModel = State::updateOrCreate(
                 ['cve_ent' => $stateRow['cve_ent']],
                 [
@@ -36,24 +45,26 @@ class ImportInegiCatalog extends Command
                 ]
             );
 
-            // 2) Municipios por estado
-            $munRows = Http::retry(3, 300)->get("{$this->base}/mgem/{$stateRow['cve_ent']}")->json('datos') ?? [];
+            // 2) Municipios de San Luis Potosí
+            $munRows = Http::retry(3, 300)
+                ->get("{$this->base}/mgem/{$stateRow['cve_ent']}")
+                ->json('datos') ?? [];
 
             foreach ($munRows as $munRow) {
                 $munModel = Municipality::updateOrCreate(
                     ['state_id' => $stateModel->id, 'cve_mun' => $munRow['cve_mun']],
                     [
-                        // del API es 'cvegeo' (5 dígitos)
                         'cve_geo' => $munRow['cvegeo'],
                         'name'    => $munRow['nomgeo'],
                     ]
                 );
 
-                // 3) Localidades por municipio (endpoint usa cvegeo municipal de 5 dígitos)
-                $locRows = Http::retry(3, 300)->get("{$this->base}/localidades/{$munRow['cvegeo']}")->json('datos') ?? [];
+                // 3) Localidades por municipio
+                $locRows = Http::retry(3, 300)
+                    ->get("{$this->base}/localidades/{$munRow['cvegeo']}")
+                    ->json('datos') ?? [];
 
                 foreach ($locRows as $locRow) {
-                    // Ambito: 'U' urbano, 'R' rural (a veces puede faltar)
                     $urban = isset($locRow['ambito']) ? ($locRow['ambito'] === 'U') : null;
 
                     Locality::updateOrCreate(
