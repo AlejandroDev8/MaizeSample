@@ -12,6 +12,7 @@ class MaizeSample extends Model
     protected $fillable = [
         'user_id',
         'farmer_id',
+        'state_id',
         'municipality_id',
         'locality_id',
         'code',
@@ -42,6 +43,12 @@ class MaizeSample extends Model
     {
         return $this->belongsTo(Farmer::class);
     }
+
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class);
+    }
+
     public function municipality(): BelongsTo
     {
         return $this->belongsTo(Municipality::class);
