@@ -31,25 +31,21 @@ class MaizeSampleInfolist
                                     ->label('Agricultor'),
                             ])
                     ]),
-                Section::make('Datos Generales')
+                Section::make('Datos Generales / Detalles de Ubicación')
+                    ->columnSpanFull()
+                    ->collapsed(false)
                     ->schema([
-                        Grid::make(2)
+                        Grid::make(4)
                             ->schema([
-                                TextEntry::make('code')
-                                    ->label('Código')
-                                    ->icon(Heroicon::OutlinedInformationCircle)
-                                    ->iconColor('primary'),
                                 TextEntry::make('collection_date')
                                     ->label('Fecha de colecta')
                                     ->icon(Heroicon::OutlinedCalendarDays)
                                     ->iconColor('primary')
                                     ->date('d-M-Y'),
-                            ])
-                    ]),
-                Section::make('Detalles de Ubicación')
-                    ->schema([
-                        Grid::make(4)
-                            ->schema([
+                                TextEntry::make('state.name')
+                                    ->icon(Heroicon::OutlinedBuildingOffice2)
+                                    ->iconColor('primary')
+                                    ->label('Estado'),
                                 TextEntry::make('municipality.name')
                                     ->icon(Heroicon::OutlinedBuildingOffice2)
                                     ->iconColor('primary')
@@ -146,9 +142,9 @@ class MaizeSampleInfolist
                                     ->imageHeight('200px')
                                     ->columnSpanFull(),
                                 // DEBUG opcional: ver la URL que está usando
-                                TextEntry::make('image_path')
-                                    ->label('URL foto (debug)')
-                                    ->columnSpanFull(),
+                                // TextEntry::make('image_path')
+                                //     ->label('URL foto (debug)')
+                                //     ->columnSpanFull(),
                             ])
                     ])
             ]);
