@@ -22,7 +22,6 @@ return new class extends Migration
             $table->foreignId('locality_id')->constrained()->onDelete('cascade');
 
             // Sample MetaData
-            $table->string('code')->nullable();
             $table->unsignedInteger('sample_number')->nullable();
             $table->date('collection_date')->nullable();
 
