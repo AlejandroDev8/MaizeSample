@@ -3,6 +3,7 @@
 namespace App\Filament\Dashboard\Resources\Farmers\Pages;
 
 use App\Filament\Dashboard\Resources\Farmers\FarmerResource;
+use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
@@ -28,7 +29,15 @@ class EditFarmer extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            ViewAction::make(),
+            Action::make('back')
+                ->label('Regresar')
+                ->url($this->getResource()::getUrl('index'))
+                ->icon('heroicon-o-arrow-left')
+                ->color('gray'),
+            ViewAction::make('view')
+                ->label('Ver Agricultor')
+                ->color('primary')
+                ->url($this->getResource()::getUrl('view', ['record' => $this->getRecord()])),
             DeleteAction::make(),
         ];
     }
