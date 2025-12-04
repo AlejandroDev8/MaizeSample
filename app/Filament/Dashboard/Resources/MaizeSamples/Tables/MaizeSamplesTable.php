@@ -27,6 +27,9 @@ class MaizeSamplesTable
                 TextColumn::make('farmer.name')
                     ->label('Agricultor')
                     ->sortable(),
+                TextColumn::make('state.name')
+                    ->label('Estado')
+                    ->sortable(),
                 TextColumn::make('municipality.name')
                     ->label('Municipio')
                     ->sortable(),
@@ -66,6 +69,11 @@ class MaizeSamplesTable
              **/
             ])
             ->filters([
+                SelectFilter::make('municipality')
+                    ->label('Municipio')
+                    ->preload()
+                    ->searchable()
+                    ->relationship('municipality', 'name'),
                 SelectFilter::make('locality')
                     ->label('Localidad')
                     ->preload()
