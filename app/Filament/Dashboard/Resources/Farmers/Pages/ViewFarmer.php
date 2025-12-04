@@ -3,6 +3,7 @@
 namespace App\Filament\Dashboard\Resources\Farmers\Pages;
 
 use App\Filament\Dashboard\Resources\Farmers\FarmerResource;
+use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 
@@ -14,6 +15,11 @@ class ViewFarmer extends ViewRecord
     {
         return [
             EditAction::make(),
+            Action::make('back')
+                ->label('Regresar')
+                ->url($this->getResource()::getUrl('index'))
+                ->icon('heroicon-o-arrow-left')
+                ->color('gray'),
         ];
     }
 }
