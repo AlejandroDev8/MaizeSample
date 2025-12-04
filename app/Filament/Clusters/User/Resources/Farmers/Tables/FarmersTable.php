@@ -9,6 +9,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class FarmersTable
@@ -27,19 +28,34 @@ class FarmersTable
                     ->iconColor('primary')
                     ->label('Teléfono')
                     ->searchable(),
-                TextColumn::make('email')
-                    ->icon(Heroicon::OutlinedEnvelope)
+                // TextColumn::make('address')
+                //     ->icon(Heroicon::OutlinedMapPin)
+                //     ->iconColor('primary')
+                //     ->label('Dirección')
+                //     ->searchable(),
+                TextColumn::make('state.name')
+                    ->icon(Heroicon::OutlinedBuildingOffice2)
                     ->iconColor('primary')
-                    ->label('Correo electrónico')
+                    ->label('Estado')
                     ->searchable(),
-                TextColumn::make('address')
-                    ->icon(Heroicon::OutlinedMapPin)
+                TextColumn::make('municipality.name')
+                    ->icon(Heroicon::OutlinedBuildingOffice2)
                     ->iconColor('primary')
-                    ->label('Dirección')
+                    ->label('Municipio')
+                    ->searchable(),
+                TextColumn::make('locality.name')
+                    ->icon(Heroicon::OutlinedBuildingOffice2)
+                    ->iconColor('primary')
+                    ->label('Localidad')
                     ->searchable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('municipality_id')
+                    ->label('Municipio')
+                    ->relationship('municipality', 'name'),
+                SelectFilter::make('locality_id')
+                    ->label('Localidad')
+                    ->relationship('locality', 'name'),
             ])
             ->recordActions([
                 ViewAction::make(),
