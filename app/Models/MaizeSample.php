@@ -15,7 +15,6 @@ class MaizeSample extends Model
         'state_id',
         'municipality_id',
         'locality_id',
-        'code',
         'sample_number',
         'collection_date',
         'latitude',

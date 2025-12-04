@@ -28,17 +28,6 @@ class MaizeSampleForm
                     ->columnSpanFull()
                     ->collapsed(false)
                     ->schema([
-                        Fieldset::make('Información')
-                            ->schema([
-                                TextInput::make('code')
-                                    ->label('Código')
-                                    ->required()
-                                    ->maxLength(50),
-                                // TextInput::make('sample_number')
-                                //     ->label('Número de muestra')
-                                //     ->required()
-                                //     ->numeric(),
-                            ]),
                         Fieldset::make('Recolector y Agricultor')
                             ->schema([
                                 TextInput::make('collector_name')
@@ -68,6 +57,12 @@ class MaizeSampleForm
                             ]),
                         Fieldset::make('Ubicación')
                             ->schema([
+                                Select::make('state_id')
+                                    ->label('Estado')
+                                    ->options(fn() => ['24' => 'San Luis Potosí'])
+                                    ->default('24')
+                                    ->disabled()
+                                    ->required(),
                                 Select::make('municipality_id')
                                     ->label('Municipio')
                                     ->relationship('municipality', 'name')
