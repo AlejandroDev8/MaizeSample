@@ -20,7 +20,15 @@ class FarmerResource extends Resource
 {
     protected static ?string $model = Farmer::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $navigationLabel = 'Agricultores';
+
+    protected static ?string $modelLabel = 'Agricultor';
+
+    protected static ?string $pluralModelLabel = 'Agricultores';
 
     public static function form(Schema $schema): Schema
     {
