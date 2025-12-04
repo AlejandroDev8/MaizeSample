@@ -59,10 +59,8 @@ class MaizeSampleForm
                             ->schema([
                                 Select::make('state_id')
                                     ->label('Estado')
-                                    ->options(fn() => ['24' => 'San Luis Potosí'])
-                                    ->default('24')
-                                    ->disabled()
-                                    ->required(),
+                                    ->relationship('state', 'name')
+                                    ->live(),
                                 Select::make('municipality_id')
                                     ->label('Municipio')
                                     ->relationship('municipality', 'name')
