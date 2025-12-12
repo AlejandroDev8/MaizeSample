@@ -1,0 +1,37 @@
+services:
+  app:
+    build: .
+    ports:
+      - "80:8000"
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost
+
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: maize_sample
+      DB_USERNAME: sail
+      DB_PASSWORD: secret
+
+      RUN_MIGRATIONS: "1"
+      RUN_SEEDER: "1"
+      RUN_INEGI: "1"
+      INEGI_FRESH: "1"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: maize_sample
+      POSTGRES_USER: sail
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
