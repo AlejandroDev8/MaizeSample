@@ -7,7 +7,9 @@ Este proyecto es un sistema de inventariado diseñado para gestionar y rastrear 
 - [Características](#características).
 - [Tecnologías principales](#tecnologías-principales).
 - [Requisitos](#requisitos).
-- [Instalación](#instalación).
+- [Instalación y ejecución con Docker (recomendado)](#instalación-y-ejecución-con-docker-recomendado).
+- [Detener contenedores](#detener-contenedores).
+- [Reiniciar desde cero (borra DB y datos)](#reiniciar-desde-cero-borra-db-y-datos).
 - [Estructura del proyecto](#estructura-del-proyecto).
 - [Uso del sistema](#uso-del-sistema).
   - [Uso como Administrador](#uso-como-administrador).
@@ -55,13 +57,20 @@ Este proyecto es un sistema de inventariado diseñado para gestionar y rastrear 
 
 Antes de comenzar, asegúrate de tener instalado:
 
-- PHP 8.3 o superior
-- Composer 2.8 o superior
-- Node.js 22.x y NPM 11.x
-- PostgreSQL 17.x
-- Extensiones de PHP necesarias para Laravel (`pdo`, `pdo_pgsql`, `mbstring`, etc.)
+- **Docker Desktop** (Windows / macOS) o Docker Engine (Linux).
+- **Docker Compose V2** (se usa como `docker compose`, no `docker-compose`).
+- Puertos disponibles:
+  - `80` para el servidor de desarrollo de Laravel.
+  - `5432` para PostgreSQL (puedes cambiarlo en el archivo `.env` si es necesario).
 
-## Instalación
+Verifica que `Docker` esté listo:
+
+```bash
+    docker --version
+    docker compose version
+```
+
+## Instalación y ejecución con Docker (recomendado)
 
 1. **Clonar el repositorio**
 
@@ -70,94 +79,46 @@ Antes de comenzar, asegúrate de tener instalado:
    cd MaizeSample
    ```
 
-2. **Instalar dependencias de PHP**
+2. Levnatar el proyecto
+
+   Este comando construye la imagen, levanta PostgreSQL, ejecuta:
+
+- php artisan key:generate
+- php artisan migrate
+- php artisan db:seed
+- php artisan inegi:import --fresh
+- php artisan storage:link
+
+    ```bash
+    docker compose -f docker-compose.yml up -d --build
+    ```
+
+3. Acceder a los logs (Útil para la primera vez)
 
    ```bash
-   composer install
-
+   docker compose -f docker-compose.yml logs -f app
    ```
 
-3. **Instalar dependencias de JavaScript**
+4. Abrir la aplicación en el navegador
 
-   ```bash
-   npm install
-
+   ```arduino
+   http://localhost
    ```
 
-4. Configurar los archivos de entorno
+## Detener contenedores
 
-   Copia el archivo de ejemplo de `env.example` y renómbralo a `.env`.
+```bash
+docker compose -f docker-compose.yml down
+```
 
-   ```bash
-   cp .env.example .env
-   ```
+## Reiniciar desde cero (borra DB y datos)
 
-   En Windows (CMD/PowerShell) puedes usar el comando copy en lugar de `cp`.
+Si quieres “reset total” (incluye volumen de Postgres):
 
-   Luego configura las variables de entorno, especialmente las de la base de datos PostgreSQL, por ejemplo:
-
-   ```env
-    DB_CONNECTION=pgsql
-    DB_HOST=127.0.0.1
-    DB_PORT=5432
-    DB_DATABASE=maize_sample
-    DB_USERNAME=tu_usuario
-    DB_PASSWORD=tu_contraseña
-   ```
-
-5. **Generar la clave de la aplicación**
-
-   ```bash
-   php artisan key:generate
-   ```
-
-6. **Ejecutar migraciones de la base de datos**
-
-    ```bash
-    php artisan migrate
-    ```
-
-7. **Ejecutar seeders (usuario administrador inicial)**
-
-    ```bash
-    php artisan db:seed
-    ```
-
-    Aquí se crean los registros iniciales (por ejemplo, el usuario administrador). Revisa los seeders en `database/seeders` para conocer las credenciales por defecto.
-
-8. **Importar catálogos de INEGI**
-
-    ```bash
-    php artisan inegi:import
-    ```
-
-    Este comando ejecuta el importador definido en `app/Console/Commands/ImportInegiCatalog.php` y carga en la base de datos los catálogos de geografía necesarios (Estados, Ciudades/Municipios y Localidades).
-
-9. **Levantar el servidor de desarrollo**
-
-    ```bash
-    php artisan serve
-    ```
-
-    Por defecto la aplicación estará disponible en:
-
-    ```arduino
-    http://localhost:8000
-    ```
-
-10. **Compilar assets de frontend**
-
-    En otra terminal, ejecuta:
-
-    ```bash
-    npm run dev
-    ```
-
-    Para producción, usa:
-
-    ```bash
-    npm run build
-    ```
+```bash
+docker compose -f docker-compose.yml down -v --remove-orphans
+docker compose -f docker-compose.yml up -d --build
+```
 
 ## Estructura del proyecto
 
