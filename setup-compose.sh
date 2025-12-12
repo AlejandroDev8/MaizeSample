@@ -5,6 +5,12 @@ COMPOSE="docker compose"
 APP_SERVICE="laravel.test"
 DB_SERVICE="pgsql"
 
+# =========================
+# Config INEGI
+# =========================
+INEGI_RUN="${INEGI_RUN:-1}"        # 1 = ejecutar import, 0 = saltar
+INEGI_FRESH="${INEGI_FRESH:-1}"    # 1 = usar --fresh, 0 = sin --fresh
+
 pause() { echo; read -r -p "Presiona ENTER para continuar..."; }
 title() {
   echo
@@ -113,10 +119,20 @@ $COMPOSE exec -T "$APP_SERVICE" php artisan migrate --seed --no-interaction
 echo "✅ Migraciones/seed completados."
 pause
 
-title "7) Importar catálogo INEGI (php artisan inegi:import)"
-$COMPOSE exec -T "$APP_SERVICE" php artisan inegi:import --no-interaction || \
-  $COMPOSE exec -T "$APP_SERVICE" php artisan inegi:import
-echo "✅ Import INEGI completado."
+title "7) Importar catálogo INEGI (San Luis Potosí únicamente)"
+
+if [[ "$INEGI_RUN" == "1" ]]; then
+  if [[ "$INEGI_FRESH" == "1" ]]; then
+    echo "🧹 Ejecutando: php artisan inegi:import --fresh"
+    $COMPOSE exec -T "$APP_SERVICE" php artisan inegi:import --fresh
+  else
+    echo "▶️ Ejecutando: php artisan inegi:import"
+    $COMPOSE exec -T "$APP_SERVICE" php artisan inegi:import
+  fi
+  echo "✅ Import INEGI completado."
+else
+  echo "⏭️ INEGI import desactivado (INEGI_RUN=0)."
+fi
 pause
 
 title "8) Storage link"
