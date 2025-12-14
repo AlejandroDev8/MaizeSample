@@ -101,6 +101,7 @@ class MaizeSampleForm
                                     ->columnSpan(1),
                                 TextInput::make('variety_name')
                                     ->label('Nombre de la variedad')
+                                    ->helpertext('Ejemplo: "Cacahuacintle", "Azul", "Amarillo", etc.')
                                     ->required()
                                     ->columnSpan(1),
                                 Textarea::make('notes')
