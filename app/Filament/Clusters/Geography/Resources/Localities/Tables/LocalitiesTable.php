@@ -9,6 +9,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class LocalitiesTable
@@ -20,7 +21,7 @@ class LocalitiesTable
                 TextColumn::make('municipality.name')
                     ->icon('heroicon-o-building-office-2')
                     ->iconColor('primary')
-                    ->label('Localidad')
+                    ->label('Municipio')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('cve_loc')
@@ -54,7 +55,11 @@ class LocalitiesTable
                     ->sortable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('municipality')
+                    ->label('Municipio')
+                    ->preload()
+                    ->searchable()
+                    ->relationship('municipality', 'name'),
             ])
             ->recordActions([
                 ViewAction::make(),
