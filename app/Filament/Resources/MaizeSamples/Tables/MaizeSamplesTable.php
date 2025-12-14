@@ -87,7 +87,7 @@ class MaizeSamplesTable
             ])
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
+                // EditAction::make(),
                 DeleteAction::make(),
             ])
             ->toolbarActions([

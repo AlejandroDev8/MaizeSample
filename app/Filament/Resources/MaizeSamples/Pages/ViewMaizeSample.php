@@ -20,11 +20,11 @@ class ViewMaizeSample extends ViewRecord
                 ->icon(Heroicon::OutlinedArrowLeft)
                 ->color('gray')
                 ->url($this->getResource()::getUrl('index')),
-            EditAction::make('edit')
-                ->label('Editar')
-                ->icon(Heroicon::OutlinedPencil)
-                ->color('primary')
-                ->url($this->getResource()::getUrl('edit', ['record' => $this->getRecord()])),
+            // EditAction::make('edit')
+            //     ->label('Editar')
+            //     ->icon(Heroicon::OutlinedPencil)
+            //     ->color('primary')
+            //     ->url($this->getResource()::getUrl('edit', ['record' => $this->getRecord()])),
         ];
     }
 
