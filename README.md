@@ -55,7 +55,8 @@ Este proyecto es un sistema de inventariado diseñado para gestionar y rastrear 
 - [NPM](https://www.npmjs.com/)
 - [Vite](https://vitejs.dev/) (para assets de frontend)
 
-> [!TIP] Las versiones indicadas son las utilizadas durante el desarrollo. Versiones superiores compatibles deberían funcionar sin problema.
+> [!TIP]
+> Las versiones indicadas son las utilizadas durante el desarrollo. Versiones superiores compatibles deberían funcionar sin problema.
 
 ---
 
@@ -116,7 +117,8 @@ El seeder crea un usuario Administrador de ejemplo:
 - **Password:** `password`
 - **Rol:** `Administrador`
 
-> [!WARNING] Si corres `db:seed` más de una vez sin reinciar la base de datos, puedes tener error por email duplicado (por el ínidice único en `user.email`). Si te pasa usa el "Reiniciar desde cero".
+> [!WARNING]
+> Si corres `db:seed` más de una vez sin reinciar la base de datos, puedes tener error por email duplicado (por el ínidice único en `user.email`). Si te pasa usa el "Reiniciar desde cero".
 
 ## Modo desarrollo (hot reload con Vite)
 
@@ -135,7 +137,8 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 docker compose -f docker-compose.yml -f docker-compose.dev.yml down --remove-orphans
 ```
 
-> [!WARNING] Si cambiaste dependencias (PHP/JS), puedes bajar y levantar o reinstalar con los servicios `composer`/`npm` incluidos en el compose dev.
+> [!WARNING]
+> Si cambiaste dependencias (PHP/JS), puedes bajar y levantar o reinstalar con los servicios `composer`/`npm` incluidos en el compose dev.
 
 ## Comandos útiles
 
