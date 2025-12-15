@@ -33,7 +33,6 @@ class MaizeSampleResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->where('user_id', Auth::id())
             ->withCount('subsamples'); // 👈 agrega subsamples_count a cada registro
     }
 
