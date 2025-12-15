@@ -1,20 +1,26 @@
-# Sistema de inventariado para la recolección de muestras de maiz
+# Sistema de inventariado para la recolección de muestras de maíz
 
 Este proyecto es un sistema de inventariado diseñado para gestionar y rastrear la recolección de muestras de maíz. Proporciona una interfaz fácil de usar para registrar, almacenar y consultar información sobre las muestras recolectadas.
 
 ## Tabla de contenidos
 
-- [Características](#características).
-- [Tecnologías principales](#tecnologías-principales).
-- [Requisitos](#requisitos).
-- [Instalación y ejecución con Docker (recomendado)](#instalación-y-ejecución-con-docker-recomendado).
-- [Detener contenedores](#detener-contenedores).
-- [Reiniciar desde cero (borra DB y datos)](#reiniciar-desde-cero-borra-db-y-datos).
-- [Estructura del proyecto](#estructura-del-proyecto).
-- [Uso del sistema](#uso-del-sistema).
-  - [Uso como Administrador](#uso-como-administrador).
-  - [Uso como Recolector](#uso-como-recolector).
-- [Autor](#autor).
+- [Características](#características)
+- [Tecnologías principales](#tecnologías-principales)
+- [Requisitos](#requisitos)
+- [Instalación y ejecución con Docker (recomendado)](#instalación-y-ejecución-con-docker-recomendado)
+  - [Credenciales iniciales (Seeder)](#credenciales-iniciales-seeder)
+- [Modo desarrollo (hot reload con Vite)](#modo-desarrollo-hot-reload-con-vite)
+  - [Detener modo desarrollo](#detener-modo-desarrollo)
+- [Comandos útiles](#comandos-útiles)
+  - [Ver logs](#ver-logs)
+  - [Detener contenedores](#detener-contenedores)
+  - [Reiniciar desde cero (borra DB y datos)](#reiniciar-desde-cero-borra-db-y-datos)
+- [Estructura del proyecto](#estructura-del-proyecto)
+- [Uso del sistema](#uso-del-sistema)
+  - [Uso como Administrador](#uso-como-administrador)
+  - [Uso como Recolector](#uso-como-recolector)
+- [Notas sobre Sail](#notas-sobre-sail)
+- [Autor](#autor)
 
 ---
 
@@ -44,12 +50,12 @@ Este proyecto es un sistema de inventariado diseñado para gestionar y rastrear 
 - [PHP](https://www.php.net/) 8.3+
 - [Laravel](https://laravel.com/) 12.x
 - [FilamentPHP](https://filamentphp.com/) 4.x
-- [PostgreSQL](https://www.postgresql.org/) 17.x
-- [Node.js](https://nodejs.org/) 22.x
-- [NPM](https://www.npmjs.com/) 11.x
-- Vite (para el build de assets de frontend)
+- [PostgreSQL](https://www.postgresql.org/) 17+ (en Docker se usa `postgres:18-alpine`)
+- [Node.js](https://nodejs.org/) 20+ (en Docker dev se usa `node:20-alpine`)
+- [NPM](https://www.npmjs.com/)
+- [Vite](https://vitejs.dev/) (para assets de frontend)
 
-> Las versiones indicadas son las utilizadas durante el desarrollo. Versiones superiores compatibles deberían funcionar sin problema.
+> [!Tip] Las versiones indicadas son las utilizadas durante el desarrollo. Versiones superiores compatibles deberían funcionar sin problema.
 
 ---
 
@@ -59,15 +65,18 @@ Antes de comenzar, asegúrate de tener instalado:
 
 - **Docker Desktop** (Windows / macOS) o Docker Engine (Linux).
 - **Docker Compose V2** (se usa como `docker compose`, no `docker-compose`).
-- Puertos disponibles:
-  - `80` para el servidor de desarrollo de Laravel.
-  - `5432` para PostgreSQL (puedes cambiarlo en el archivo `.env` si es necesario).
+
+Puertos disponibles:
+
+- `80` para la aplicación (Laravel).
+- `5432` para PostgreSQL (puedes cambiarlo en el `.env` si es necesario).
+- `5173` para Vite (solo en modo desarrollo / hot reload).
 
 Verifica que `Docker` esté listo:
 
 ```bash
-    docker --version
-    docker compose version
+docker --version
+docker compose version
 ```
 
 ## Instalación y ejecución con Docker (recomendado)
@@ -79,36 +88,67 @@ Verifica que `Docker` esté listo:
    cd MaizeSample
    ```
 
-2. Levnatar el proyecto
+2. Levanatar el proyecto
 
    Este comando construye la imagen, levanta PostgreSQL, ejecuta:
 
-- php artisan key:generate
-- php artisan migrate
-- php artisan db:seed
-- php artisan inegi:import --fresh
-- php artisan storage:link
+   - `php artisan key:generate`
+   - `php artisan migrate`
+   - `php artisan db:seed`
+   - `php artisan inegi:import --fresh`
+   - `php artisan storage:link`
 
     ```bash
-    docker compose -f docker-compose.yml up -d --build
+    docker compose up -d --build
     ```
 
-3. Acceder a los logs (Útil para la primera vez)
-
-   ```bash
-   docker compose -f docker-compose.yml logs -f app
-   ```
-
-4. Abrir la aplicación en el navegador
+3. Abrir la aplicación en el navegador
 
    ```arduino
    http://localhost
    ```
 
+### Credenciales iniciales (Seeder)
+
+El seeder crea un usuario Administrador de ejemplo:
+
+- **Email:** `test@example.com`
+- **Password:** `password`
+- **Rol:** `Administrador`
+
+> [!warning] Si corres `db:seed` más de una vez sin reinciar la base de datos, puedes tener error por email duplicado (por el ínidice único en `user.email`). Si te pasa usa el "Reiniciar desde cero".
+
+## Modo desarrollo (hot reload con Vite)
+
+Si vas a desarrollar y quieres ver cambios al instante (hot reload), usa el compose de desarrollo:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+```
+
+- **Aplicación:** `http://localhost`
+- **Vite (hot reload):** `http://localhost:5173`
+
+### Detener modo desarrollo
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down --remove-orphans
+```
+
+> [!warning] Si cambiaste dependencias (PHP/JS), puedes bajar y levantar o reinstalar con los servicios `composer`/`npm` incluidos en el compose dev.
+
+## Comandos útiles
+
+### Ver logs
+
+```bash
+docker compose logs -f app
+```
+
 ## Detener contenedores
 
 ```bash
-docker compose -f docker-compose.yml down
+docker compose down
 ```
 
 ## Reiniciar desde cero (borra DB y datos)
@@ -116,8 +156,8 @@ docker compose -f docker-compose.yml down
 Si quieres “reset total” (incluye volumen de Postgres):
 
 ```bash
-docker compose -f docker-compose.yml down -v --remove-orphans
-docker compose -f docker-compose.yml up -d --build
+docker compose down -v --remove-orphans
+docker compose up -d --build
 ```
 
 ## Estructura del proyecto
@@ -131,7 +171,7 @@ Algunas rutas relevantes en el proyecto:
 - `app/Filament/Clusters`
   Clústers de Filament para organizar recursos, por ejemplo:
 
-  - Clúster de **Gepgrafía** (Estados, Ciudades, Localidades).
+  - Clúster de **Geografía** (Estados, Ciudades, Localidades).
   - Clúster de **Usuarios** (Agricultores, Recolectores).
 
 - `app/Filament/Dashboard/Resources`
@@ -152,7 +192,7 @@ Algunas rutas relevantes en el proyecto:
 1. Accede a la aplicación en tu navegador:
 
    ```arduino
-   http://localhost:8000
+   http://localhost
    ```
 
 2. Inicia sesión con la cuenta de `Administrador` creada por los seeders (consulta `database/seeders` para ver las credenciales configuradas).
@@ -181,7 +221,7 @@ Algunas rutas relevantes en el proyecto:
 1. Accede a la aplicación en tu navegador:
 
    ```arduino
-   http://localhost:8000
+   http://localhost
    ```
 
 2. Inicia sesión con tu cuenta de `Recolector` (creada previamente por el administrador).
@@ -194,6 +234,22 @@ Algunas rutas relevantes en el proyecto:
    - Ver las muestras que has registrado.
    - Editar o eliminar tus registros.
    - Consultar el detalle de una muestra específica haciendo clic sobre ella.
+
+## Notas sobre Sail
+
+Este repositorio incluye configuración de Laravel Sail, pero fue renombrada a `compose.sail.yaml` para evitar conflictos con `docker-compose.yml`. (Docker Compose suele elegir `compose.yaml` automáticamente si existe).
+
+- Para el stack principal (recomendado)
+  
+  ```bash
+    docker compose up -d --build
+  ```
+  
+- Si alguna vez quieres usar Sail explícitamente:
+  
+  ```bash
+  docker compose -f compose.sail.yaml up -d
+  ```
 
 ## Autor
 
